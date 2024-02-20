@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import tech.nocountry.printopia.enums.ProductType;
+import tech.nocountry.printopia.persistence.enums.ProductType;
 
 @Getter
 @Setter
