@@ -40,5 +40,4 @@ public class User {
     private String salt;
     @Column(nullable = false)
     private Role role;
-    
 }
