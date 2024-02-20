@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import tech.nocountry.printopia.enums.Role;
+import tech.nocountry.printopia.persistence.enums.Role;
 
 @Getter
 @Setter
