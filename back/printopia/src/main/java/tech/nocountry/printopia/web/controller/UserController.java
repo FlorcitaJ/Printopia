@@ -1,14 +1,17 @@
 package tech.nocountry.printopia.web.controller;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import tech.nocountry.printopia.persistence.entity.User;
 import tech.nocountry.printopia.service.UserService;
+import org.springframework.validation.BindingResult;
 
 import java.rmi.server.ExportException;
 import java.util.List;
@@ -84,20 +87,20 @@ public class UserController {
     //Register a new user
     @PostMapping("/register")
     @Transactional
-    public ResponseEntity<?> register(@RequestBody User t){
-        try {
-                if (!this.userService.exists(t.getEmail())) {
-                    if (t.getEmail() != null) {
-                        return ResponseEntity.ok(this.userService.save(t));
-                    } else {
-                        return ResponseEntity.status(HttpStatus.CONFLICT).body("some data are missing, please check");
-                    }
+    public ResponseEntity<?> register(@Valid @RequestBody User t, BindingResult bindingResult){
+
+            if(bindingResult.hasErrors()) {
+                StringBuilder errorMessage = new StringBuilder("Validation errors: ");
+                for (FieldError error : bindingResult.getFieldErrors()) {
+                    errorMessage.append(error.getField()).append(" ").append(error.getDefaultMessage()).append("; ");
                 }
-                // HTTP CODE: 409
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("This email is already registered");
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+                return ResponseEntity.badRequest().body(errorMessage.toString());
+            }
+            if (!this.userService.exists(t.getEmail())) {
+                return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.save(t));
+            }
+            // HTTP CODE: 409
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("This email is already registered");
     }
 }
 
