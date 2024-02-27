@@ -1,5 +1,6 @@
 package tech.nocountry.printopia.web.controller;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import tech.nocountry.printopia.persistence.entity.User;
 import tech.nocountry.printopia.service.UserService;
 
+import java.rmi.server.ExportException;
 import java.util.List;
 
 import static java.util.Objects.isNull;
@@ -30,7 +32,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    /*@GetMapping
+    /*
+    //List all users
+    @GetMapping
     public ResponseEntity<List<User>> getAll() {
         try {
             return ResponseEntity.ok(this.userService.getAll());
@@ -40,6 +44,7 @@ public class UserController {
         }
     }
 
+    //Return info about an user by email
     @GetMapping("/{emailUser}")
     public ResponseEntity<User> getByEmail(@PathVariable("emailUser") String emailUser){
         try{
@@ -53,9 +58,10 @@ public class UserController {
             return ResponseEntity.internalServerError().build();
         }
     }
+    */
 
-     */
 
+    //Validate if email and password are correct
     @GetMapping("/validate")
     public ResponseEntity<?> validateUSer(@RequestBody() User user){
         try{
@@ -70,6 +76,26 @@ public class UserController {
 
         }catch(Exception e){
             System.out.println(e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+
+    }
+
+    //Register a new user
+    @PostMapping("/register")
+    @Transactional
+    public ResponseEntity<?> register(@RequestBody User t){
+        try {
+                if (!this.userService.exists(t.getEmail())) {
+                    if (t.getEmail() != null) {
+                        return ResponseEntity.ok(this.userService.save(t));
+                    } else {
+                        return ResponseEntity.status(HttpStatus.CONFLICT).body("some data are missing, please check");
+                    }
+                }
+                // HTTP CODE: 409
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("This email is already registered");
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }
