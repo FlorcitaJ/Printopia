@@ -1,13 +1,7 @@
 
 package tech.nocountry.printopia.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,27 +12,22 @@ import tech.nocountry.printopia.persistence.enums.Role;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "User")
+@Table(name = "user")
 @Entity
 public class User {
     @Id
-    @SequenceGenerator(
-            name = "userIdSequence",
-            sequenceName = "userIdSequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
-            generator = "userIdSequence")
+    @Column(length = 50)
     private String email;
     @Column(nullable = false,length = 50)
     private String name;
     @Column(nullable = false,length = 50)
     private String lastName;
-    @Column(nullable = false,length = 70)
-    private String hash;
-    @Column(nullable = false,length = 32)
-    private String salt;
-    @Column(nullable = false)
+    @Column(nullable = false,length = 200)
+    private String password;
+    @Column(nullable = false, columnDefinition = "TINYINT")
+    private Boolean locked;
+    @Column(nullable = false, columnDefinition = "TINYINT")
+    private Boolean disabled;
+    @Enumerated(EnumType.STRING)
     private Role role;
-    
 }
