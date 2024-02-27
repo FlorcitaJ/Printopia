@@ -1,13 +1,11 @@
 
 package tech.nocountry.printopia.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,27 +16,32 @@ import tech.nocountry.printopia.persistence.enums.Role;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "User")
+@Table(name = "user")
 @Entity
 public class User {
     @Id
-    @SequenceGenerator(
-            name = "userIdSequence",
-            sequenceName = "userIdSequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
-            generator = "userIdSequence")
+    @Column(length = 50)
+    @NotBlank(message = "cannot be null or blank")
+    @Size(min = 5, max = 50, message = "must have between 5 and 50 characters")
+    @Email(message="invalid")
     private String email;
     @Column(nullable = false,length = 50)
+    @NotNull
     private String name;
     @Column(nullable = false,length = 50)
+    @NotNull
     private String lastName;
-    @Column(nullable = false,length = 70)
-    private String hash;
-    @Column(nullable = false,length = 32)
-    private String salt;
-    @Column(nullable = false)
+    @Column(nullable = false,length = 200)
+    @NotNull
+    private String password;
+    @Column(nullable = false, columnDefinition = "TINYINT")
+    @NotNull
+    private Boolean locked;
+    @NotNull
+    @Column(nullable = false, columnDefinition = "TINYINT")
+    @NotNull
+    private Boolean disabled;
+    @Enumerated(EnumType.STRING)
+    @NotNull
     private Role role;
-    
 }
