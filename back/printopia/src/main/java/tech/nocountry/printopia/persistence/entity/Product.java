@@ -6,9 +6,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.net.URL;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +24,7 @@ import tech.nocountry.printopia.persistence.enums.ProductType;
 @Table(name = "product")
 @Entity
 public class Product {
-    
+
     @Id
     @SequenceGenerator(
             name = "productIdSequence",
@@ -32,7 +34,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "productIdSequence")
     private Integer id;
-    @Column(nullable = false,length = 50)
+    @Column(nullable = false, length = 50)
     private String name;
     @Column(length = 500)
     private String description;
@@ -57,6 +59,8 @@ public class Product {
     private Double promotionPrice;
     private Integer stock;
     private URL photo;
+    @ManyToMany(mappedBy = "products")
+    private Set<Category> categories;
 
 }
 
