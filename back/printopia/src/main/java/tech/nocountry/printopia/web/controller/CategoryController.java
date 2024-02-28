@@ -61,17 +61,34 @@ public class CategoryController {
         categoryService.deleteById(id);
     }
 
-    // Searches for categories by name
-    @GetMapping("/search/name")
-    public List<Category> findByName(@RequestParam String name) {
-        return categoryService.findByName(name);
+    // Searches for categories by name or description containing the given text
+    @GetMapping("/search")
+    public List<Category> findByName(@RequestParam(name = "name", required = false) String name,
+                                     @RequestParam(name = "description", required = false) String description) throws Exception{
+        if (name != null && description != null) {
+            // Realizar búsqueda por nombre y descripción, NO IMPLEMENTADO
+            return categoryService.findByName(name);
+        } else if (name != null) {
+            // Realizar búsqueda solo por nombre
+            return categoryService.findByName(name);
+        } else if (description != null) {
+            // Realizar búsqueda solo por descripción
+            return categoryService.findByDescriptionContaining(description);
+        } else {
+            // Ningún parámetro proporcionado NO IMPLEMENTADO
+            return categoryService.findByName(name);
+        }
+
+
     }
 
+    /*
     // Searches for categories by description containing the given text
     @GetMapping("/search/description")
     public List<Category> findByDescriptionContaining(@RequestParam String description) throws Exception {
         return categoryService.findByDescriptionContaining(description);
     }
+     */
 }
 
 
