@@ -1,21 +1,23 @@
 package tech.nocountry.printopia.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
-
-import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
+import java.util.Set;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Consolidated_Sale")
+@Table(name = "consolidated_sale")
 @Entity
 public class ConsolidatedSale {
 
@@ -29,9 +31,8 @@ public class ConsolidatedSale {
             generator = "consolidatedSaleIdSequence")
     private Integer id;
 
-    @OneToMany(mappedBy = "Sale_Detail")
-    @Column(nullable = false)
-    private Integer idShippingMethod;
+    @Column(columnDefinition = "DATE")
+    private LocalDate saleDate;
 
     @Column(columnDefinition = "DOUBLE(8,2)", nullable = false)
     private Double shippingCost;
@@ -39,8 +40,16 @@ public class ConsolidatedSale {
     @Column(columnDefinition = "DOUBLE(8,2)", nullable = false)
     private Double totalCost;
 
-    @Column(nullable = false,length = 50)
-    private String userEmail;
 
+    @ManyToOne
+    @JoinColumn(name = "userEmail", referencedColumnName = "email", nullable = false)
+    @JsonManagedReference
+    //@Column(nullable = false,length = 50)
+    private User user;
+
+
+    @OneToMany(mappedBy = "consolidatedSale")
+    @JsonBackReference
+    private Set<SaleDetail> saleDetails;
 
 }

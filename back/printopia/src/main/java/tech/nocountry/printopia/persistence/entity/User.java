@@ -1,24 +1,21 @@
 
 package tech.nocountry.printopia.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tech.nocountry.printopia.persistence.enums.Role;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "User")
+@Table(name = "user")
 @Entity
 public class User {
     @Id
@@ -40,5 +37,7 @@ public class User {
     private String salt;
     @Column(nullable = false)
     private Role role;
-    
+    @JsonBackReference
+    @OneToMany(mappedBy = "user")
+    private Set<ConsolidatedSale> consolidatedSales;
 }

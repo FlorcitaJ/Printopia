@@ -19,7 +19,7 @@ import tech.nocountry.printopia.persistence.enums.ProductType;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Product")
+@Table(name = "product")
 @Entity
 public class Product {
     
@@ -57,6 +57,6 @@ public class Product {
     private Double promotionPrice;
     private Integer stock;
     private URL photo;
-    
+
 }
 

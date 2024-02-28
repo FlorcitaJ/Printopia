@@ -1,10 +1,8 @@
 package tech.nocountry.printopia.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
-
-import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Sale_Detail")
+@Table(name = "sale_detail")
 @Entity
 public class SaleDetail {
 
@@ -30,17 +28,13 @@ public class SaleDetail {
     private Integer id;
 
     @ManyToOne
-    @Column(nullable = false)
-    @JoinColumn(name="consolidated_sale")
-    private Integer idConsolidatedSale;
+    @JoinColumn(name="idConsolidatedSale", referencedColumnName = "id",nullable = false)
+    private ConsolidatedSale consolidatedSale;
 
-
-    @Column(length = 500)
-    private LocalDate date;
-
-    @OneToMany
-    @Column(nullable = false)
-    private Integer idProduct;
+    @ManyToOne
+    @JoinColumn(name = "productId", referencedColumnName = "id")
+    @JsonManagedReference
+    private Product product;
 
     @Column(nullable = false)
     private Integer quantity;
@@ -53,6 +47,5 @@ public class SaleDetail {
 
     @Column(columnDefinition = "TINYINT")
     private Boolean wasPromotional;
-
 
 }
