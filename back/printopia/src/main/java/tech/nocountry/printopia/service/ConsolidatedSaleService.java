@@ -46,10 +46,10 @@ public class ConsolidatedSaleService {
         ConsolidatedSale consolidatedSale = getById(id);
         if (consolidatedSale != null) {
             // Validate and update name and description
-
-            if (updatedConsolidatedSale.getSaleDetails() != null) {
-                consolidatedSale.setSaleDetails(updatedConsolidatedSale.getSaleDetails());
-            }
+            //TODO: Esto esta referenciando mal a la entidad,desde consolidatdsales a salesdetails, se debe revisar
+//            if (updatedConsolidatedSale.getSaleDetails() != null) {
+//                consolidatedSale.setSaleDetails(updatedConsolidatedSale.getSaleDetails());
+//            }
             if (updatedConsolidatedSale.getSaleDate() != null) {
                 consolidatedSale.setSaleDate(updatedConsolidatedSale.getSaleDate());
             }

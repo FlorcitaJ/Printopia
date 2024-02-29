@@ -43,13 +43,16 @@ public class ConsolidatedSale {
 
     @ManyToOne
     @JoinColumn(name = "userEmail", referencedColumnName = "email", nullable = false)
-    @JsonManagedReference
+
     //@Column(nullable = false,length = 50)
     private User user;
 
+// TODO: la relacion parece erronea , hay que revisarla
+//    @OneToMany(mappedBy = "consolidatedSale")
+//        private Set<SaleDetail> saleDetails;
+// Failed to evaluate Jackson deserialization for type [[simple type, class tech.nocountry.printopia.persistence.entity.User]]:
+// com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot handle managed/back reference 'defaultReference':
+// no back reference property found from type `tech.nocountry.printopia.persistence.entity.Product`
 
-    @OneToMany(mappedBy = "consolidatedSale")
-    @JsonBackReference
-    private Set<SaleDetail> saleDetails;
 
 }

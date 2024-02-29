@@ -10,7 +10,7 @@ import tech.nocountry.printopia.service.SaleDetailService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/saledetails")
+@RequestMapping("/api/saledetails")
 public class SaleDetailController {
 
     @Autowired

@@ -10,7 +10,7 @@ import tech.nocountry.printopia.service.ConsolidatedSaleService;
 import java.time.LocalDate;
 import java.util.List;
 
-@RequestMapping("/consolidatedsales")
+@RequestMapping("/api/consolidatedsales")
 @RestController
 public class ConsolidatedSaleController {
 

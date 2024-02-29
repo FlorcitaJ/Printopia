@@ -50,9 +50,10 @@ public class User {
     private Boolean disabled;
     @Enumerated(EnumType.STRING)
     @NotNull
+    @Column(nullable = false, length = 15)
     private Role role;
 
-    @JsonBackReference
+    //TODO
     @OneToMany(mappedBy = "user")
     private Set<ConsolidatedSale> consolidatedSales;
 

@@ -65,7 +65,7 @@ public class UserController {
     }
 
     //Validate if email and password are correct
-    public PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
     @GetMapping("/validate")
@@ -92,19 +92,19 @@ public class UserController {
     @Transactional
     public ResponseEntity<?> register(@Valid @RequestBody User t, BindingResult bindingResult){
 
-            if(bindingResult.hasErrors()) {
-                StringBuilder errorMessage = new StringBuilder("Validation errors: ");
-                for (FieldError error : bindingResult.getFieldErrors()) {
-                    errorMessage.append(error.getField()).append(" ").append(error.getDefaultMessage()).append("; ");
-                }
-                return ResponseEntity.badRequest().body(errorMessage.toString());
+        if(bindingResult.hasErrors()) {
+            StringBuilder errorMessage = new StringBuilder("Validation errors: ");
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errorMessage.append(error.getField()).append(" ").append(error.getDefaultMessage()).append("; ");
             }
-            if (!this.userService.exists(t.getEmail())) {
+            return ResponseEntity.badRequest().body(errorMessage.toString());
+        }
+        if (!this.userService.exists(t.getEmail())) {
 
-                return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.save(t));
-            }
-            // HTTP CODE: 409
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("This email is already registered");
+            return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.save(t));
+        }
+        // HTTP CODE: 409
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("This email is already registered");
     }
 }
 
