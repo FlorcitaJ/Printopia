@@ -64,7 +64,7 @@ public class CategoryService {
         if (description == null) {
             throw new IllegalArgumentException("Description cannot be null");
         }
-        return categoryRepository.findByDescriptionContaining(description);
+        return categoryRepository.findByDescriptionContainingIgnoreCase(description);
     }
 
     // Finds categories by name

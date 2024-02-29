@@ -4,9 +4,12 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import tech.nocountry.printopia.persistence.entity.User;
@@ -29,13 +32,12 @@ import static java.util.Objects.isNull;
 public class UserController {
     private final UserService userService;
 
-
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    /*
+
     //List all users
     @GetMapping
     public ResponseEntity<List<User>> getAll() {
@@ -61,19 +63,20 @@ public class UserController {
             return ResponseEntity.internalServerError().build();
         }
     }
-    */
-
 
     //Validate if email and password are correct
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
     @GetMapping("/validate")
-    public ResponseEntity<?> validateUSer(@RequestBody() User user){
+    public ResponseEntity<?> validateUser(@RequestBody() User user){
         try{
             User tmp=this.userService.getByEmail(user.getEmail());
             if(isNull(tmp)){
-                return ResponseEntity.noContent().build();
+                return ResponseEntity.status((HttpStatus.UNAUTHORIZED)).body("Unauthorized");
             }else{
-                int result = user.getPassword().compareTo(tmp.getPassword());
-                if(result == 0) {return ResponseEntity.ok(true);} else {return ResponseEntity.status((HttpStatus.UNAUTHORIZED)).body("Unauthorized");}
+                boolean isMatch = passwordEncoder().matches(user.getPassword(), tmp.getPassword());
+                if(isMatch) {return ResponseEntity.ok(tmp.getRole());} else {return ResponseEntity.status((HttpStatus.UNAUTHORIZED)).body("Unauthorized");}
 
             }
 
@@ -97,6 +100,7 @@ public class UserController {
                 return ResponseEntity.badRequest().body(errorMessage.toString());
             }
             if (!this.userService.exists(t.getEmail())) {
+
                 return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.save(t));
             }
             // HTTP CODE: 409
