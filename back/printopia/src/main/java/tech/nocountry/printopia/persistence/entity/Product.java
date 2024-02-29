@@ -16,7 +16,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tech.nocountry.printopia.persistence.enums.ProductType;
-
+/**
+ *
+ * @author flopy
+ */
 @Getter
 @Setter
 @NoArgsConstructor
