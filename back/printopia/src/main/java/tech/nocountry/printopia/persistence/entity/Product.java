@@ -21,10 +21,10 @@ import tech.nocountry.printopia.persistence.enums.ProductType;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Product")
+@Table(name = "product")
 @Entity
 public class Product {
-    
+
     @Id
     @SequenceGenerator(
             name = "productIdSequence",
@@ -34,7 +34,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "productIdSequence")
     private Integer id;
-    @Column(nullable = false,length = 50)
+    @Column(nullable = false, length = 50)
     private String name;
     @Column(length = 500)
     private String description;
@@ -62,6 +62,5 @@ public class Product {
     @ManyToMany(mappedBy = "products")
     private Set<Category> categories;
 
-    
 }
 
