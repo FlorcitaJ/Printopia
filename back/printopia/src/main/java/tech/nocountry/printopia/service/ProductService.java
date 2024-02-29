@@ -45,9 +45,9 @@ public class ProductService {
     }
     
     
-//   public List<Product> findProductByCategory(String categories){
-//        return productRepository.findProductByCategory(categories);
-//    }
+   public List<Product> findProductByCategory(String categories){
+        return productRepository.findProductByCategory(categories);
+    }
     
     public List<Product> findProductByDescriptionContaining(String description){
         return productRepository.findProductByDescriptionContaining(description);
@@ -130,7 +130,7 @@ public class ProductService {
         product.setStock(updatedProduct.getStock());
         product.setPhoto(updatedProduct.getPhoto());
         product.setPhoto(updatedProduct.getPhoto());
-        //product.setCategories(updatedProduct.getCategories());
+        product.setCategories(updatedProduct.getCategories());
         return product;
     }
 }

@@ -45,10 +45,10 @@ public class ProductController {
         return productService.findProductByName(name);
     }
     
-//    @GetMapping("/search/categories")
-//    public List<Product> getProductByCategory(@RequestParam(name = "categories") String categories){
-//        return productService.findProductByCategory(categories);
-//    }
+    @GetMapping("/search/categories")
+    public List<Product> getProductByCategory(@RequestParam(name = "categories") String categories){
+        return productService.findProductByCategory(categories);
+    }
     
     @GetMapping("/search/description")
     public List<Product> getProductByDescriptionContaining(@RequestParam(name = "description") String description){
