@@ -1,6 +1,7 @@
 
 package tech.nocountry.printopia.web.controller;
 
+import java.util.Collection;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import tech.nocountry.printopia.persistence.entity.Category;
 import tech.nocountry.printopia.persistence.entity.Product;
 import tech.nocountry.printopia.persistence.enums.ProductType;
 import tech.nocountry.printopia.service.ProductService;
@@ -46,7 +48,7 @@ public class ProductController {
     }
     
     @GetMapping("/search/categories")
-    public List<Product> getProductByCategory(@RequestParam(name = "categories") String categories){
+    public List<Product> getProductByCategory(@RequestParam(name = "categories") Collection<Category> categories){
         return productService.findProductByCategory(categories);
     }
     

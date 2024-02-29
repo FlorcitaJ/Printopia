@@ -1,10 +1,12 @@
 package tech.nocountry.printopia.service;
 
 import jakarta.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tech.nocountry.printopia.persistence.entity.Category;
 import tech.nocountry.printopia.persistence.entity.Product;
 import tech.nocountry.printopia.persistence.enums.ProductType;
 import tech.nocountry.printopia.persistence.repository.ProductRepository;
@@ -45,7 +47,7 @@ public class ProductService {
     }
     
     
-   public List<Product> findProductByCategory(String categories){
+   public List<Product> findProductByCategory(Collection<Category> categories){
         return productRepository.findProductByCategory(categories);
     }
     
