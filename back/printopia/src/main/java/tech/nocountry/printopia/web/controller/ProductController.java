@@ -1,8 +1,8 @@
 
 package tech.nocountry.printopia.web.controller;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,10 +47,10 @@ public class ProductController {
         return productService.findProductByName(name);
     }
     
-//    @GetMapping("/search/categories")
-//    public List<Product> getProductByCategory(@RequestParam(name = "categories") Collection<Category> categories){
-//        return productService.findProductByCategory(categories);
-//    }
+    @GetMapping("/search/categories")
+    public List<Product> getProductByCategory(@RequestParam(name = "categories") Set<String> categories){
+        return productService.findProductByCategory(categories);
+    }
     
     @GetMapping("/search/description")
     public List<Product> getProductByDescriptionContaining(@RequestParam(name = "description") String description){

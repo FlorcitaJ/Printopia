@@ -1,9 +1,9 @@
 package tech.nocountry.printopia.service;
 
 import jakarta.transaction.Transactional;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.nocountry.printopia.persistence.entity.Category;
@@ -19,10 +19,17 @@ public class ProductService {
 
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    CategoryService categoriService;
     
     @Transactional
     public Product save(Product product) throws Exception{
         validate(product);
+        Category category=product.getCategory();
+        Set<Product>products=category.getProducts();
+        products.add(product);
+        category.setProducts(products);
+        categoriService.update(category.getId(), category);
         return productRepository.save(product);
     }
 
@@ -32,7 +39,7 @@ public class ProductService {
     }
     
     public Product findProductById(Integer id) throws Exception{
-        Optional<Product>            response=productRepository.findById(id);
+        Optional<Product>response=productRepository.findById(id);
         Product product=new Product();
         if(response.isPresent()){
             product=response.get();
@@ -47,9 +54,9 @@ public class ProductService {
     }
     
     
-//   public List<Product> findProductByCategory(Collection<Category> categories){
-//        return productRepository.findProductByCategory(categories);
-//    }
+   public List<Product> findProductByCategory(Set<String> categories){
+        return productRepository.findProductByCategory(categories);
+    }
     
     public List<Product> findProductByDescriptionContaining(String description){
         return productRepository.findProductByDescriptionContaining(description);
@@ -73,7 +80,7 @@ public class ProductService {
     
     @Transactional
     public void deleteProduct(Integer id) throws Exception{
-        Optional<Product>            response=productRepository.findById(id);
+        Optional<Product>response=productRepository.findById(id);
         if(response.isPresent()){
             Product product=response.get();
             productRepository.delete(product);
@@ -113,6 +120,9 @@ public class ProductService {
         if(product.getPhoto()==null){
             throw new Exception("You must upload a photo");
         }
+        if(product.getCategory()==null){
+            throw new Exception("You must asign at least one category");
+        }
     }
     
     private Product updateEasy(Product product,Product updatedProduct){
@@ -132,7 +142,7 @@ public class ProductService {
         product.setStock(updatedProduct.getStock());
         product.setPhoto(updatedProduct.getPhoto());
         product.setPhoto(updatedProduct.getPhoto());
-        product.setCategories(updatedProduct.getCategories());
+        product.setCategory(updatedProduct.getCategory());
         return product;
     }
 }

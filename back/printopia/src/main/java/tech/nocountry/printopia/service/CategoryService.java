@@ -41,7 +41,7 @@ public class CategoryService {
         }
         return categoryRepository.save(category);
     }
-
+   
     // Updates an existing category, validating data and handling null values
     public Category update(Integer id, Category updatedCategory) {
         Category category = findById(id);

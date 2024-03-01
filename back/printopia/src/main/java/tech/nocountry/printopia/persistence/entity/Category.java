@@ -4,6 +4,9 @@
  */
 package tech.nocountry.printopia.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.util.Set;
@@ -45,10 +49,13 @@ public class Category {
     private String name;
     @Column(nullable = false, length = 500)
     private String description;
-    @ManyToMany
-    @JoinTable(name = "products_categories",
-        joinColumns = @JoinColumn(name = "category_id"),
-        inverseJoinColumns = @JoinColumn(name = "product_id"))
+//    @ManyToMany
+//    @JoinTable(name = "products_categories",
+//        joinColumns = @JoinColumn(name = "category_id"),
+//        inverseJoinColumns = @JoinColumn(name = "product_id"))
+    
+    @JsonManagedReference
+    @OneToMany(mappedBy = "category")
     private Set<Product> products;
 
 }

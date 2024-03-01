@@ -20,7 +20,5 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     public List<Category> findByDescriptionContainingIgnoreCase(String description);
 
-
-
 }
 
