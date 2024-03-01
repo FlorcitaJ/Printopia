@@ -68,7 +68,8 @@ public class Product {
     private Double promotionPrice;
     private Integer stock;
     private URL photo;
-    @JsonBackReference
+
+    // @JsonBackReference
     @ManyToOne
       @JoinColumn(name = "category_id",referencedColumnName = "id")
     private Category category;
