@@ -54,7 +54,8 @@ public class Category {
 //        joinColumns = @JoinColumn(name = "category_id"),
 //        inverseJoinColumns = @JoinColumn(name = "product_id"))
     
-    @JsonManagedReference
+    //@JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private Set<Product> products;
 
