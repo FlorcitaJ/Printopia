@@ -68,7 +68,7 @@ public class UserController {
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-    @GetMapping("/validate")
+    @PostMapping("/validate")
     public ResponseEntity<?> validateUser(@RequestBody() User user){
         try{
             User tmp=this.userService.getByEmail(user.getEmail());
